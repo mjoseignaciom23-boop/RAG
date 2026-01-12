@@ -1,0 +1,16 @@
+Este es un documento de prueba para el sistema RAG.
+
+El sistema RAG (Retrieval Augmented Generation) es una arquitectura que combina la recuperacion de informacion con la generacion de texto mediante modelos de lenguaje grandes (LLMs).
+
+Componentes principales del sistema:
+1. Document Loader: Carga documentos de diferentes formatos (PDF, TXT, DOCX, MD)
+2. Text Splitter: Divide los documentos en chunks mas pequenos
+3. Embeddings: Genera vectores numericos que representan el significado del texto
+4. Vector Store: Almacena los embeddings en una base de datos vectorial (ChromaDB)
+5. LLM: Modelo de lenguaje que genera respuestas basadas en el contexto recuperado
+
+El flujo de trabajo es:
+1. Indexacion: Los documentos se cargan, dividen en chunks, se generan embeddings y se almacenan
+2. Consulta: La pregunta del usuario se convierte en embedding, se buscan chunks similares, y el LLM genera una respuesta
+
+Este sistema permite hacer preguntas sobre documentos propios sin necesidad de entrenar un modelo personalizado.

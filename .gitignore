@@ -1,0 +1,24 @@
+# Environment variables
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Editor/IDE
+.vscode/
+.idea/
+
+# Project specific
+vectorstore/
+test_vectorstore_temp/
+# data/  <-- Descomentar si los documentos PDF/TXT son privados y no deben subirse
