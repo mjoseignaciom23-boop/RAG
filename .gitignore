@@ -21,4 +21,4 @@ htmlcov/
 # Project specific
 vectorstore/
 test_vectorstore_temp/
-# data/  <-- Descomentar si los documentos PDF/TXT son privados y no deben subirse
+# data/  <-- 
