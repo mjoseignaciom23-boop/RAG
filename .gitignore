@@ -1,24 +1,18 @@
-# Environment variables
+# Environment
 .env
 
 # Python
 __pycache__/
 *.py[cod]
-*$py.class
 venv/
 .venv/
 env/
 
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
+# Data & Database
+vectorstore/
+data/
+# data/documentos/ # Descomentar para ignorar solo los documentos pero mantener la carpeta data
 
-# Editor/IDE
+# IDE
 .vscode/
 .idea/
-
-# Project specific
-vectorstore/
-test_vectorstore_temp/
-# data/  <-- 

@@ -1,35 +1,35 @@
-# Sistema RAG - Retrieval Augmented Generation
+# RAG Local con Ollama
 
-Sistema de preguntas y respuestas basado en documentos propios. Permite indexar documentos y realizar consultas inteligentes con citación de fuentes.
+Sistema de RAG (Retrieval Augmented Generation) 100% local y privado. Usa **Ollama** con **Qwen 2.5** para razonamiento y `multilingual-e5` para embeddings.
 
 ## Tecnologías
 
-- **Python 3.8+**
-- **LangChain** - Orquestación del pipeline RAG
-- **ChromaDB** - Base de datos vectorial
-- **Sentence Transformers** - Embeddings locales (all-MiniLM-L6-v2)
-- **OpenAI GPT-3.5-turbo** - Generación de respuestas
+- **LangChain**: Orquestación.
+- **ChromaDB**: Base de datos vectorial persistente.
+- **Ollama**: Ejecución local de LLMs.
+- **Sentence Transformers**: Embeddings en CPU/GPU.
 
-## Formatos Soportados
+## Requisitos Previs
 
-PDF, TXT, DOCX y Markdown
+1. **Instalar Ollama**: [ollama.com](https://ollama.com)
+2. **Descargar modelo**:
+   ```bash
+   ollama pull qwen2.5:7b
+   ```
 
 ## Instalación
 
 ```bash
-# Crear entorno virtual
+# Entorno virtual
 python -m venv venv
 venv\Scripts\activate  # Windows
-source venv/bin/activate  # Linux/Mac
 
-# Instalar dependencias
+# Dependencias
 pip install -r requirements.txt
-```
 
-Crear archivo `.env` con tu API key de OpenAI:
-
-```env
-OPENAI_API_KEY=tu_api_key_aqui
+# Configuración
+cp .env.example .env
+# (No hace falta API Key, todo es local)
 ```
 
 ## Uso
@@ -38,18 +38,5 @@ OPENAI_API_KEY=tu_api_key_aqui
 python main.py
 ```
 
-El menú interactivo permite:
-
-1. **Indexar documentos** - Procesa documentos de `data/documentos/`
-2. **Cargar índice existente** - Carga un índice previamente creado
-3. **Hacer una consulta** - Realiza preguntas sobre tus documentos
-4. **Eliminar índice** - Limpia la base de datos vectorial
-
-## Costos Estimados
-
-- **Embeddings**: Gratuitos (modelo local)
-- **ChromaDB**: Gratuito (local)
-- **OpenAI API**:
-  - GPT-3.5-turbo: ~$0.001 por 1K tokens
-  - GPT-4: ~$0.03 por 1K tokens
-  - Consulta típica: ~2-3K tokens → $0.002-$0.003 por pregunta
+1. **Indexar**: Lee PDFs/TXT de `data/documentos`.
+2. **Consultar**: Pregunta sobre tu información.

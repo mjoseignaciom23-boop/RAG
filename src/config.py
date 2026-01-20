@@ -1,97 +1,38 @@
-"""
-Configuración centralizada del sistema RAG usando pydantic-settings.
-"""
+"""Configuración del sistema."""
 from functools import lru_cache
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import Field, field_validator
-
+from pydantic import Field
 from src.exceptions import ConfigurationError
 
-
 class Settings(BaseSettings):
-    """Configuración de la aplicación cargada desde variables de entorno."""
-
+    """Carga configuración desde variables de entorno (.env)."""
+    
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
-        case_sensitive=False,
-        extra="ignore",
+        extra="ignore"
     )
 
-    # API Keys
-    openai_api_key: str = Field(
-        ...,
-        description="API Key de OpenAI",
-    )
+    # Ollama
+    ollama_base_url: str = Field(default="http://localhost:11434")
 
     # Modelos
-    llm_model_name: str = Field(
-        default="gpt-3.5-turbo",
-        description="Nombre del modelo LLM a usar",
-    )
-    llm_temperature: float = Field(
-        default=0.7,
-        ge=0.0,
-        le=2.0,
-        description="Temperatura del LLM",
-    )
-    embedding_model_name: str = Field(
-        default="all-MiniLM-L6-v2",
-        description="Nombre del modelo de embeddings local",
-    )
+    llm_model_name: str = Field(default="qwen2.5:7b")
+    llm_temperature: float = Field(default=0.1, ge=0.0, le=2.0)
+    embedding_model_name: str = Field(default="intfloat/multilingual-e5-small")
 
     # Vector Store
-    vectorstore_path: str = Field(
-        default="./vectorstore",
-        description="Ruta al directorio del vector store",
-    )
+    vectorstore_path: str = Field(default="./vectorstore")
 
-    # Document Processing
-    chunk_size: int = Field(
-        default=1000,
-        gt=0,
-        description="Tamaño de cada chunk de texto",
-    )
-    chunk_overlap: int = Field(
-        default=200,
-        ge=0,
-        description="Solapamiento entre chunks",
-    )
-
-    # Retrieval
-    retrieval_k: int = Field(
-        default=4,
-        gt=0,
-        description="Número de documentos a recuperar por consulta",
-    )
-
-    @field_validator("openai_api_key")
-    @classmethod
-    def validate_api_key(cls, v: str) -> str:
-        """Valida que la API key no sea un placeholder."""
-        if not v or v == "tu_api_key_aqui" or v.startswith("sk-xxx"):
-            raise ValueError(
-                "OPENAI_API_KEY no está configurada correctamente. "
-                "Por favor, configura tu API key en el archivo .env"
-            )
-        return v
-
+    # Procesamiento
+    chunk_size: int = Field(default=1000, gt=0)
+    chunk_overlap: int = Field(default=200, ge=0)
+    retrieval_k: int = Field(default=4, gt=0)
 
 @lru_cache
 def get_settings() -> Settings:
-    """
-    Obtiene la configuración de la aplicación (singleton cacheado).
-
-    Returns:
-        Instancia de Settings
-
-    Raises:
-        ConfigurationError: Si la configuración es inválida
-    """
+    """Singleton de configuración."""
     try:
         return Settings()
     except Exception as e:
-        raise ConfigurationError(
-            message="Error de configuración",
-            details=str(e),
-        ) from e
+        raise ConfigurationError(f"Error de configuración: {e}") from e
